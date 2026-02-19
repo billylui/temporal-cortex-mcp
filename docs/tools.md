@@ -4,6 +4,23 @@ Complete reference for the 6 MCP tools provided by `@temporal-cortex/cortex-mcp`
 
 All datetime parameters use [RFC 3339](https://www.rfc-editor.org/rfc/rfc3339) format (e.g., `2026-03-15T14:00:00Z` or `2026-03-15T10:00:00-04:00`).
 
+## Tool Annotations
+
+[MCP tool annotations](https://modelcontextprotocol.io/specification/2025-03-26/server/tools#annotations) describe the behavior profile of each tool, helping clients make informed decisions about tool approval and safety.
+
+| Tool | `readOnlyHint` | `destructiveHint` | `idempotentHint` | `openWorldHint` |
+|------|:-:|:-:|:-:|:-:|
+| `list_events` | true | false | true | true |
+| `find_free_slots` | true | false | true | true |
+| `book_slot` | **false** | false | **false** | true |
+| `expand_rrule` | true | false | true | false |
+| `check_availability` | true | false | true | true |
+| `get_availability` | true | false | true | true |
+
+- **`book_slot`** is the only tool that modifies external state (creates calendar events). It is not idempotent — calling it twice with the same parameters creates two events. It is not destructive — it never deletes or overwrites existing events.
+- All other tools are read-only and idempotent (safe to retry).
+- `expand_rrule` is closed-world (`openWorldHint: false`) — it performs pure computation without external API calls.
+
 ---
 
 ## list_events

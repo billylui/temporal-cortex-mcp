@@ -1,0 +1,25 @@
+name: Documentation Issue
+description: Report a documentation problem (broken link, unclear content, missing info)
+title: "[Docs] "
+labels: ["documentation"]
+body:
+  - type: textarea
+    id: location
+    attributes:
+      label: Where
+      description: Which file or page has the issue?
+      placeholder: "e.g., docs/tools.md, section 'book_slot'"
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What's wrong or what's missing?
+    validations:
+      required: true
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested Fix
+      description: If you have a suggestion, describe it here.
