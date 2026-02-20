@@ -40,7 +40,8 @@ File: `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) 
       "args": ["-y", "@temporal-cortex/cortex-mcp"],
       "env": {
         "GOOGLE_CLIENT_ID": "your-client-id.apps.googleusercontent.com",
-        "GOOGLE_CLIENT_SECRET": "your-client-secret"
+        "GOOGLE_CLIENT_SECRET": "your-client-secret",
+        "TIMEZONE": "America/New_York"
       }
     }
   }
@@ -59,7 +60,8 @@ File: `~/.cursor/mcp.json`
       "args": ["-y", "@temporal-cortex/cortex-mcp"],
       "env": {
         "GOOGLE_CLIENT_ID": "your-client-id.apps.googleusercontent.com",
-        "GOOGLE_CLIENT_SECRET": "your-client-secret"
+        "GOOGLE_CLIENT_SECRET": "your-client-secret",
+        "TIMEZONE": "America/New_York"
       }
     }
   }
@@ -78,7 +80,8 @@ File: `~/.codeium/windsurf/mcp_config.json`
       "args": ["-y", "@temporal-cortex/cortex-mcp"],
       "env": {
         "GOOGLE_CLIENT_ID": "your-client-id.apps.googleusercontent.com",
-        "GOOGLE_CLIENT_SECRET": "your-client-secret"
+        "GOOGLE_CLIENT_SECRET": "your-client-secret",
+        "TIMEZONE": "America/New_York"
       }
     }
   }
@@ -93,7 +96,19 @@ After configuration, restart your MCP client and ask:
 
 The AI should use the `list_events` tool and return your calendar events.
 
-## Available Tools
+## Available Tools (11)
+
+**Layer 1 — Temporal Context** (call `get_temporal_context` first):
+
+| Tool | Purpose |
+|------|---------|
+| `get_temporal_context` | Current time, timezone, UTC offset, DST status |
+| `resolve_datetime` | Resolve `"next Tuesday at 2pm"` to RFC 3339 |
+| `convert_timezone` | Convert datetimes between timezones |
+| `compute_duration` | Duration between two timestamps |
+| `adjust_timestamp` | DST-aware timestamp adjustment |
+
+**Layer 2-4 — Calendar Operations, Availability, Booking**:
 
 | Tool | Purpose |
 |------|---------|
@@ -108,4 +123,5 @@ The AI should use the `list_events` tool and return your calendar events.
 
 - **No credentials found**: Run `npx @temporal-cortex/cortex-mcp auth` first
 - **OAuth error**: Verify `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` are set correctly
+- **Wrong timezone**: Set `TIMEZONE` env var (e.g., `America/New_York`) or re-run auth
 - **Port conflict**: Set `OAUTH_REDIRECT_PORT` to a different port (default: 8085)

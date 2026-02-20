@@ -1,6 +1,6 @@
 # Tool Reference
 
-Complete reference for the 6 MCP tools provided by `@temporal-cortex/cortex-mcp`.
+Complete reference for the 11 MCP tools provided by `@temporal-cortex/cortex-mcp`.
 
 All datetime parameters use [RFC 3339](https://www.rfc-editor.org/rfc/rfc3339) format (e.g., `2026-03-15T14:00:00Z` or `2026-03-15T10:00:00-04:00`).
 
@@ -12,6 +12,11 @@ These tools are available over both **stdio** (default) and **streamable HTTP** 
 
 | Tool | `readOnlyHint` | `destructiveHint` | `idempotentHint` | `openWorldHint` |
 |------|:-:|:-:|:-:|:-:|
+| `get_temporal_context` | true | false | true | false |
+| `resolve_datetime` | true | false | true | false |
+| `convert_timezone` | true | false | true | false |
+| `compute_duration` | true | false | true | false |
+| `adjust_timestamp` | true | false | true | false |
 | `list_events` | true | false | true | true |
 | `find_free_slots` | true | false | true | true |
 | `book_slot` | **false** | false | **false** | true |
@@ -21,7 +26,232 @@ These tools are available over both **stdio** (default) and **streamable HTTP** 
 
 - **`book_slot`** is the only tool that modifies external state (creates calendar events). It is not idempotent — calling it twice with the same parameters creates two events. It is not destructive — it never deletes or overwrites existing events.
 - All other tools are read-only and idempotent (safe to retry).
-- `expand_rrule` is closed-world (`openWorldHint: false`) — it performs pure computation without external API calls.
+- Layer 1 temporal tools and `expand_rrule` are closed-world (`openWorldHint: false`) — they perform pure computation without external API calls.
+
+---
+
+## Layer 1 — Temporal Context
+
+These tools help AI agents orient themselves in time. **Call `get_temporal_context` first** to know the current time and timezone before making calendar queries.
+
+---
+
+## get_temporal_context
+
+Get the current time, timezone, and calendar metadata. This is the entry point — agents should call this first to orient themselves in time.
+
+### Parameters
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `timezone` | string | No | IANA timezone (e.g., `"America/New_York"`). Omit to use the configured timezone. |
+
+### Output
+
+```json
+{
+  "utc": "2026-02-20T15:30:00+00:00",
+  "local": "2026-02-20T10:30:00-05:00",
+  "timezone": "America/New_York",
+  "timezone_configured": true,
+  "utc_offset": "-05:00",
+  "dst_active": false,
+  "day_of_week": "Friday",
+  "iso_week": 8,
+  "is_weekday": true,
+  "day_of_year": 51
+}
+```
+
+- `timezone_configured: false` means no default timezone is set. The agent should prompt the user to configure one.
+- `dst_active` compares the current UTC offset to January 1st (standard time) offset.
+
+### Example
+
+> "What time is it?"
+
+```json
+{}
+```
+
+Or with explicit timezone:
+
+```json
+{
+  "timezone": "Asia/Tokyo"
+}
+```
+
+---
+
+## resolve_datetime
+
+Resolve a human time expression into a precise RFC 3339 datetime. Supports 60+ expression patterns.
+
+### Parameters
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `expression` | string | Yes | Time expression (e.g., `"next Tuesday at 2pm"`, `"tomorrow morning"`, `"+3h"`) |
+| `timezone` | string | No | IANA timezone. Omit to use configured timezone. |
+
+### Output
+
+```json
+{
+  "resolved_utc": "2026-02-24T19:00:00+00:00",
+  "resolved_local": "2026-02-24T14:00:00-05:00",
+  "timezone": "America/New_York",
+  "interpretation": "Tuesday, February 24, 2026 at 2:00 PM"
+}
+```
+
+### Supported Expressions
+
+| Category | Examples |
+|----------|---------|
+| Anchored | `"now"`, `"today"`, `"tomorrow"`, `"yesterday"` |
+| Weekday | `"next Monday"`, `"this Friday"`, `"last Wednesday"` |
+| Time-of-day | `"morning"` (09:00), `"noon"`, `"evening"` (18:00), `"eob"` (17:00) |
+| Explicit time | `"2pm"`, `"2:30pm"`, `"14:00"` |
+| Offsets | `"+2h"`, `"-30m"`, `"in 2 hours"`, `"3 days ago"` |
+| Combined | `"next Tuesday at 2pm"`, `"tomorrow morning"`, `"next Friday evening"` |
+| Period boundaries | `"start of week"`, `"end of month"`, `"next quarter"` |
+| Ordinal | `"first Monday of March"`, `"third Friday of next month"` |
+| Passthrough | Any RFC 3339 or ISO 8601 date is returned as-is |
+
+### Example
+
+> "When is next Tuesday at 2pm?"
+
+```json
+{
+  "expression": "next Tuesday at 2pm"
+}
+```
+
+---
+
+## convert_timezone
+
+Convert an RFC 3339 datetime to a different IANA timezone.
+
+### Parameters
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `datetime` | string | Yes | RFC 3339 datetime to convert |
+| `target_timezone` | string | Yes | Target IANA timezone |
+
+### Output
+
+```json
+{
+  "utc": "2026-03-15T18:00:00+00:00",
+  "local": "2026-03-15T11:00:00-07:00",
+  "timezone": "America/Los_Angeles",
+  "utc_offset": "-07:00",
+  "dst_active": true
+}
+```
+
+### Example
+
+> "What time is 6pm UTC in Pacific time?"
+
+```json
+{
+  "datetime": "2026-03-15T18:00:00Z",
+  "target_timezone": "America/Los_Angeles"
+}
+```
+
+---
+
+## compute_duration
+
+Compute the duration between two timestamps.
+
+### Parameters
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `start` | string | Yes | First timestamp (RFC 3339) |
+| `end` | string | Yes | Second timestamp (RFC 3339) |
+
+### Output
+
+```json
+{
+  "total_seconds": 30600,
+  "days": 0,
+  "hours": 8,
+  "minutes": 30,
+  "seconds": 0,
+  "human_readable": "8 hours, 30 minutes"
+}
+```
+
+### Example
+
+> "How long is my meeting from 9am to 5:30pm?"
+
+```json
+{
+  "start": "2026-03-16T13:00:00Z",
+  "end": "2026-03-16T21:30:00Z"
+}
+```
+
+---
+
+## adjust_timestamp
+
+Adjust a timestamp by a duration, with DST awareness.
+
+### Parameters
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `datetime` | string | Yes | RFC 3339 datetime to adjust |
+| `adjustment` | string | Yes | Duration adjustment (e.g., `"+2h"`, `"-30m"`, `"+1d2h30m"`) |
+| `timezone` | string | No | IANA timezone for day-level adjustments. Omit to use configured timezone. |
+
+### Output
+
+```json
+{
+  "original": "2026-03-08T01:00:00-05:00",
+  "adjusted_utc": "2026-03-09T05:00:00+00:00",
+  "adjusted_local": "2026-03-09T01:00:00-04:00",
+  "adjustment_applied": "+1d"
+}
+```
+
+### Duration Format
+
+- Single unit: `"+2h"`, `"-30m"`, `"+3d"`, `"+1w"`, `"+90s"`
+- Compound: `"+1d2h30m"`, `"-2w3d"`
+- Must start with `+` or `-`
+
+### DST Behavior
+
+`"+1d"` across DST spring-forward maintains the same wall-clock time (not +24 hours). In the example above, adding 1 day to 1:00 AM EST produces 1:00 AM EDT — the UTC offset changes from -05:00 to -04:00.
+
+### Example
+
+> "What time is 2 hours and 30 minutes from now?"
+
+```json
+{
+  "datetime": "2026-03-16T14:00:00-04:00",
+  "adjustment": "+2h30m"
+}
+```
+
+---
+
+## Layer 2 — Calendar Operations
 
 ---
 

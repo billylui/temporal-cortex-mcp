@@ -6,7 +6,8 @@
       "args": ["-y", "@temporal-cortex/cortex-mcp"],
       "env": {
         "GOOGLE_CLIENT_ID": "your-client-id.apps.googleusercontent.com",
-        "GOOGLE_CLIENT_SECRET": "your-client-secret"
+        "GOOGLE_CLIENT_SECRET": "your-client-secret",
+        "TIMEZONE": "America/New_York"
       }
     }
   }

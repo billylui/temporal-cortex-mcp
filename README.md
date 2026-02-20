@@ -6,19 +6,20 @@
 [![Smithery](https://smithery.ai/badge/@temporal-cortex/cortex-mcp)](https://smithery.ai/server/@temporal-cortex/cortex-mcp)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-**The only Calendar MCP server with atomic booking and conflict prevention.**
+**The complete temporal stack for AI agents. Context. Computation. Calendars. Correct.**
 
 <a href="https://insiders.vscode.dev/redirect/mcp/install?name=temporal-cortex-mcp&inputs=%7B%22google_client_id%22%3A%22%22%2C%22google_client_secret%22%3A%22%22%7D&config=%7B%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22%40temporal-cortex%2Fcortex-mcp%22%5D%2C%22env%22%3A%7B%22GOOGLE_CLIENT_ID%22%3A%22%24%7Binput%3Agoogle_client_id%7D%22%2C%22GOOGLE_CLIENT_SECRET%22%3A%22%24%7Binput%3Agoogle_client_secret%7D%22%7D%7D"><img src="https://img.shields.io/badge/VS_Code-Install_MCP_Server-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white" alt="Install in VS Code"></a>
 <a href="https://cursor.com/install-mcp?name=temporal-cortex&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsIkB0ZW1wb3JhbC1jb3J0ZXgvY29ydGV4LW1jcCJdLCJlbnYiOnsiR09PR0xFX0NMSUVOVF9JRCI6InlvdXItY2xpZW50LWlkLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiR09PR0xFX0NMSUVOVF9TRUNSRVQiOiJ5b3VyLWNsaWVudC1zZWNyZXQifX0%3D"><img src="https://img.shields.io/badge/Cursor-Install_MCP_Server-black?style=flat-square&logo=cursor&logoColor=white" alt="Install in Cursor"></a>
 
 ## The Problem
 
-AI agents double-book your calendar. They hallucinate availability. They silently fail on recurring events that cross DST boundaries, skip leap years, or use `BYSETPOS`. Every other Calendar MCP server is a thin CRUD wrapper that passes these failures through to Google Calendar — no verification, no conflict detection, no safety net.
+LLMs get date and time tasks wrong roughly 60% of the time ([AuthenHallu benchmark](https://arxiv.org/abs/2407.12282)). Ask "What time is it?" and the model hallucinates. Ask "Schedule for next Tuesday at 2pm" and it picks the wrong Tuesday. Ask "Am I free at 3pm?" and it checks the wrong timezone. Then it double-books your calendar.
 
-LLMs get date and time tasks wrong roughly 60% of the time ([AuthenHallu benchmark](https://arxiv.org/abs/2407.12282)). When your AI assistant says "You're free at 2pm" and books a meeting there, it might be wrong — and there's nothing between the LLM's hallucination and your calendar.
+Every other Calendar MCP server is a thin CRUD wrapper that passes these failures through to Google Calendar — no temporal awareness, no conflict detection, no safety net.
 
 ## What's Different
 
+- **Temporal awareness** — Agents call `get_temporal_context` to know the actual time and timezone. `resolve_datetime` turns `"next Tuesday at 2pm"` into a precise RFC 3339 timestamp. No hallucination.
 - **Atomic booking** — Lock the time slot, verify no conflicts exist, then write. Two agents booking the same 2pm slot? Exactly one succeeds. The other gets a clear error. No double-bookings.
 - **Computed availability** — Merges free/busy data across multiple calendars into a single unified view. The AI sees actual availability, not a raw dump of events to misinterpret.
 - **Deterministic RRULE expansion** — Handles DST transitions, `BYSETPOS=-1` (last weekday of month), `EXDATE` with timezones, leap year recurrences, and `INTERVAL>1` with `BYDAY`. Powered by [Truth Engine](https://github.com/billylui/temporal-cortex-core), not LLM inference.
@@ -44,7 +45,8 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS)
       "args": ["-y", "@temporal-cortex/cortex-mcp"],
       "env": {
         "GOOGLE_CLIENT_ID": "your-client-id.apps.googleusercontent.com",
-        "GOOGLE_CLIENT_SECRET": "your-client-secret"
+        "GOOGLE_CLIENT_SECRET": "your-client-secret",
+        "TIMEZONE": "America/New_York"
       }
     }
   }
@@ -63,7 +65,8 @@ Add to Cursor's MCP settings (`~/.cursor/mcp.json`):
       "args": ["-y", "@temporal-cortex/cortex-mcp"],
       "env": {
         "GOOGLE_CLIENT_ID": "your-client-id.apps.googleusercontent.com",
-        "GOOGLE_CLIENT_SECRET": "your-client-secret"
+        "GOOGLE_CLIENT_SECRET": "your-client-secret",
+        "TIMEZONE": "America/New_York"
       }
     }
   }
@@ -82,7 +85,8 @@ Add to Windsurf's MCP config (`~/.codeium/windsurf/mcp_config.json`):
       "args": ["-y", "@temporal-cortex/cortex-mcp"],
       "env": {
         "GOOGLE_CLIENT_ID": "your-client-id.apps.googleusercontent.com",
-        "GOOGLE_CLIENT_SECRET": "your-client-secret"
+        "GOOGLE_CLIENT_SECRET": "your-client-secret",
+        "TIMEZONE": "America/New_York"
       }
     }
   }
@@ -103,18 +107,42 @@ This opens your browser for Google OAuth consent. After authorizing, credentials
 
 **Option B** — The server prompts automatically when an MCP client connects and no credentials are found.
 
-After authentication, verify it works by asking your AI assistant: *"What meetings do I have today?"*
+During auth, the server detects your system timezone and prompts you to confirm or override it. This is stored in `~/.config/temporal-cortex/config.json` and used by all temporal tools. You can override it per-session with the `TIMEZONE` env var, or per-call via the `timezone` parameter.
 
-## Available Tools
+After authentication, verify it works by asking your AI assistant: *"What time is it?"* — the agent should call `get_temporal_context` and return your current local time.
 
-| Tool | Type | Description | What Makes It Different |
-|------|------|-------------|------------------------|
-| `list_events` | read | List calendar events in a time range | Output in TOON format (~40% fewer tokens) or JSON |
-| `find_free_slots` | read | Find available time slots in a calendar | Computes actual gaps between events, not just event data |
-| `book_slot` | **write** | Book a calendar slot safely | Lock → verify → write with Two-Phase Commit. No double-bookings. |
-| `expand_rrule` | read | Expand a recurrence rule into concrete instances | Deterministic: handles DST, BYSETPOS, leap years, EXDATE |
-| `check_availability` | read | Check if a specific time slot is available | Verifies against both events and active booking locks |
-| `get_availability` | read | Unified availability across multiple calendars | Merges busy/free data with privacy controls (opaque/full) |
+## Available Tools (11)
+
+### Layer 1 — Temporal Context
+
+| Tool | Description |
+|------|-------------|
+| `get_temporal_context` | Current time, timezone, UTC offset, DST status, day of week. **Call this first.** |
+| `resolve_datetime` | Resolve human expressions (`"next Tuesday at 2pm"`, `"tomorrow morning"`, `"+2h"`) to RFC 3339. |
+| `convert_timezone` | Convert any RFC 3339 datetime between IANA timezones. |
+| `compute_duration` | Duration between two timestamps (days, hours, minutes, human-readable). |
+| `adjust_timestamp` | DST-aware timestamp adjustment (`"+1d"` across spring-forward = same wall-clock). |
+
+### Layer 2 — Calendar Operations
+
+| Tool | Description |
+|------|-------------|
+| `list_events` | List calendar events in a time range. Output in TOON (~40% fewer tokens) or JSON. |
+| `find_free_slots` | Find available time slots in a calendar. Computes actual gaps between events. |
+| `expand_rrule` | Expand recurrence rules into concrete instances. Handles DST, BYSETPOS, leap years. |
+| `check_availability` | Check if a specific time slot is available against events and active locks. |
+
+### Layer 3 — Availability
+
+| Tool | Description |
+|------|-------------|
+| `get_availability` | Merged free/busy view across multiple calendars with privacy controls. |
+
+### Layer 4 — Booking
+
+| Tool | Description |
+|------|-------------|
+| `book_slot` | Book a calendar slot safely. Lock → verify → write with Two-Phase Commit. |
 
 See [docs/tools.md](docs/tools.md) for full input/output schemas and usage examples.
 
@@ -154,7 +182,7 @@ Truth Engine handles all of these deterministically using the [RFC 5545](https:/
 
 The MCP server is a single Rust binary distributed via npm. It runs locally on your machine and communicates with MCP clients over stdio (standard input/output) or streamable HTTP.
 
-- **Truth Engine** handles all date/time computation: RRULE expansion, availability merging, conflict detection. Deterministic, not inference-based.
+- **Truth Engine** handles all date/time computation: temporal resolution, timezone conversion, RRULE expansion, availability merging, conflict detection. Deterministic, not inference-based.
 - **TOON** (Token-Oriented Object Notation) compresses calendar data for LLM consumption — fewer tokens, same information.
 - **Two-Phase Commit** ensures booking safety: acquire lock, verify the slot is free, write the event, release lock. If any step fails, everything rolls back.
 
@@ -184,6 +212,7 @@ Mode is auto-detected — there is no configuration flag.
 | `GOOGLE_CLIENT_ID` | Yes* | — | Google OAuth Client ID from [Cloud Console](https://console.cloud.google.com/apis/credentials) |
 | `GOOGLE_CLIENT_SECRET` | Yes* | — | Google OAuth Client Secret |
 | `GOOGLE_OAUTH_CREDENTIALS` | No | — | Path to Google OAuth JSON credentials file (alternative to `CLIENT_ID` + `CLIENT_SECRET`) |
+| `TIMEZONE` | No | auto-detected | IANA timezone override (e.g., `America/New_York`). Overrides stored config and OS detection. |
 | `REDIS_URLS` | No | — | Comma-separated Redis URLs. When set, activates Full Mode with distributed locking. |
 | `TENANT_ID` | No | auto-generated | UUID for tenant isolation |
 | `LOCK_TTL_SECS` | No | `30` | Lock time-to-live in seconds |
@@ -230,23 +259,25 @@ No credit card required.
 
 ## Comparison with Alternatives
 
-| Feature | temporal-cortex-mcp | google-calendar-mcp (nspady) | calendar-mcp (rauf543) |
-|---------|:-------------------:|:----------------------------:|:----------------------:|
-| Double-booking prevention (2PC) | Yes | No | No |
-| Deterministic RRULE expansion | Yes | No | Partial |
-| Multi-calendar availability merge | Yes | No | No |
-| Prompt injection firewall | Yes | No | No |
-| TOON token compression | Yes | No | No |
-| Multi-provider (Google + Outlook) | Yes | No | Yes |
-| Price | Free (Lite) | Free | Free |
+| Feature | temporal-cortex-mcp | temporal-awareness-mcp | google-calendar-mcp (nspady) | calendar-mcp (rauf543) |
+|---------|:-------------------:|:----------------------:|:----------------------------:|:----------------------:|
+| Temporal context (time/timezone) | Yes (5 tools) | Yes (1 tool) | No | No |
+| Human expression parsing | Yes (`"next Tuesday at 2pm"`) | No | No | No |
+| Double-booking prevention (2PC) | Yes | No | No | No |
+| Deterministic RRULE expansion | Yes | No | No | Partial |
+| Multi-calendar availability merge | Yes | No | No | No |
+| Prompt injection firewall | Yes | No | No | No |
+| TOON token compression | Yes | No | No | No |
+| Multi-provider (Google + Outlook) | Yes | No | No | Yes |
+| Price | Free (Lite) | Free | Free | Free |
 
 ## Built on Temporal Cortex Core
 
 The computation layer is open source:
 
-- **[temporal-cortex-core](https://github.com/billylui/temporal-cortex-core)** — Truth Engine (RRULE expansion, availability merging) + TOON (token compression)
+- **[temporal-cortex-core](https://github.com/billylui/temporal-cortex-core)** — Truth Engine (temporal resolution, RRULE expansion, availability merging, timezone conversion) + TOON (token compression)
 - Available on [crates.io](https://crates.io/crates/truth-engine), [npm](https://www.npmjs.com/package/@temporal-cortex/truth-engine), and [PyPI](https://pypi.org/project/temporal-cortex-toon/)
-- 446+ Rust tests, 42 JS tests, 30 Python tests, ~9,000 property-based tests
+- 510+ Rust tests, 42 JS tests, 30 Python tests, ~9,000 property-based tests
 
 ## Contributing
 

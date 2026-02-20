@@ -15,6 +15,10 @@ startCommand:
         type: string
         title: Google Client Secret
         description: Google OAuth2 Client Secret
+      timezone:
+        type: string
+        title: Timezone
+        description: IANA timezone (e.g., America/New_York). Auto-detected if not set.
       tenant_id:
         type: string
         title: Tenant ID
@@ -39,6 +43,7 @@ startCommand:
       env: {
         GOOGLE_CLIENT_ID: config.google_client_id,
         GOOGLE_CLIENT_SECRET: config.google_client_secret,
+        ...(config.timezone && { TIMEZONE: config.timezone }),
         ...(config.tenant_id && { TENANT_ID: config.tenant_id }),
         ...(config.lock_ttl_secs && { LOCK_TTL_SECS: String(config.lock_ttl_secs) }),
         ...(config.oauth_redirect_port && { OAUTH_REDIRECT_PORT: String(config.oauth_redirect_port) }),
