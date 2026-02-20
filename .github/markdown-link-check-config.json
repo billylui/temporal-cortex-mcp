@@ -4,7 +4,8 @@
     { "pattern": "^https://console\\.cloud\\.google\\.com/" },
     { "pattern": "^https://smithery\\.ai/" },
     { "pattern": "^https://crates\\.io/crates/" },
-    { "pattern": "^https://www\\.npmjs\\.com/package/" }
+    { "pattern": "^https://www\\.npmjs\\.com/package/" },
+    { "pattern": "^https://github\\.com/billylui/temporal-cortex-mcp/compare/" }
   ],
   "retryOn429": true,
   "retryCount": 3,
