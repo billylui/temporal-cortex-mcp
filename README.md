@@ -237,7 +237,7 @@ No credit card required.
 | Multi-calendar availability merge | Yes | No | No |
 | Prompt injection firewall | Yes | No | No |
 | TOON token compression | Yes | No | No |
-| Multi-provider (Google + Outlook) | Roadmap | No | No |
+| Multi-provider (Google + Outlook) | Yes | No | Yes |
 | Price | Free (Lite) | Free | Free |
 
 ## Built on Temporal Cortex Core
