@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-02-20
+
+### Added
+- `WEEK_START` env var — configure whether weeks start on Monday (ISO 8601, default) or Sunday
+- Week start configuration in auth flow — prompted after timezone confirmation
+- 16 compound period expressions: `"start of last week"`, `"end of next month"`, `"start of next quarter"`, etc.
+- `get_temporal_context` now returns `week_start` field so AI agents know the user's preference
+
 ## [0.2.0] - 2026-02-20
 
 ### Added
@@ -36,6 +44,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Deterministic RRULE expansion via Truth Engine (DST-aware, BYSETPOS, leap years)
 - RRULE Challenge CLI command for demonstrating edge case handling
 
-[Unreleased]: https://github.com/billylui/temporal-cortex-mcp/compare/mcp-v0.2.0...HEAD
+[Unreleased]: https://github.com/billylui/temporal-cortex-mcp/compare/mcp-v0.2.1...HEAD
+[0.2.1]: https://github.com/billylui/temporal-cortex-mcp/compare/mcp-v0.2.0...mcp-v0.2.1
 [0.2.0]: https://github.com/billylui/temporal-cortex-mcp/compare/mcp-v0.1.1...mcp-v0.2.0
 [0.1.1]: https://github.com/billylui/temporal-cortex-mcp/releases/tag/mcp-v0.1.1

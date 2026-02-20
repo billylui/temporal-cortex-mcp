@@ -107,7 +107,7 @@ This opens your browser for Google OAuth consent. After authorizing, credentials
 
 **Option B** — The server prompts automatically when an MCP client connects and no credentials are found.
 
-During auth, the server detects your system timezone and prompts you to confirm or override it. This is stored in `~/.config/temporal-cortex/config.json` and used by all temporal tools. You can override it per-session with the `TIMEZONE` env var, or per-call via the `timezone` parameter.
+During auth, the server detects your system timezone and prompts you to confirm or override it, then asks for your preferred week start day (Monday or Sunday). Both are stored in `~/.config/temporal-cortex/config.json` and used by all temporal tools. You can override them per-session with the `TIMEZONE` and `WEEK_START` env vars.
 
 After authentication, verify it works by asking your AI assistant: *"What time is it?"* — the agent should call `get_temporal_context` and return your current local time.
 
@@ -213,6 +213,7 @@ Mode is auto-detected — there is no configuration flag.
 | `GOOGLE_CLIENT_SECRET` | Yes* | — | Google OAuth Client Secret |
 | `GOOGLE_OAUTH_CREDENTIALS` | No | — | Path to Google OAuth JSON credentials file (alternative to `CLIENT_ID` + `CLIENT_SECRET`) |
 | `TIMEZONE` | No | auto-detected | IANA timezone override (e.g., `America/New_York`). Overrides stored config and OS detection. |
+| `WEEK_START` | No | `monday` | Week start day: `monday` (ISO 8601) or `sunday`. Affects "start of week", "next week", etc. |
 | `REDIS_URLS` | No | — | Comma-separated Redis URLs. When set, activates Full Mode with distributed locking. |
 | `TENANT_ID` | No | auto-generated | UUID for tenant isolation |
 | `LOCK_TTL_SECS` | No | `30` | Lock time-to-live in seconds |
