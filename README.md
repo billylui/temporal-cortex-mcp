@@ -237,26 +237,18 @@ See [docs/google-cloud-setup.md](docs/google-cloud-setup.md) for a complete setu
 
 See [docs/google-cloud-setup.md](docs/google-cloud-setup.md) for detailed OAuth troubleshooting.
 
-## Going to Production?
+## Ready for More?
 
-The MCP server in Lite Mode handles single-provider computation with conflict prevention for individual use. For teams and production deployments:
+The open-source MCP server gives you full calendar intelligence for your agent. When you're ready for more:
 
-- **Multi-provider unification** — Google + Outlook + CalDAV (iCloud, Fastmail) in one query
-- **Distributed Two-Phase Commit** — Redis Redlock quorum for multi-process, multi-host safety
-- **Enterprise OAuth management** — HashiCorp Vault integration, per-tenant credential isolation
-- **Usage metering** — Per-operation billing with daily aggregation
+**Managed Cloud (Free)** — Zero-setup hosting with managed OAuth, dashboard UI, and multi-calendar support across Google, Outlook, and iCloud. Up to 3 connected calendars, 50 bookings/month, all 11 tools.
+→ [Sign up for early access](https://tally.so/r/aQ66W2)
 
-| Operation | Price |
-|-----------|-------|
-| Calendar read | $0.001 |
-| Availability check | $0.002 |
-| Booking (with 2PC safety) | $0.01 |
-| Connected account | $0.50/mo |
-| **Free tier** | **100 bookings/mo + 5 accounts** |
+**Open Scheduling (Pro)** — Let external agents and people book time with you. Shareable availability, inbound booking API, atomic Two-Phase Commit booking, caller-based policies, and unlimited calendar connections.
+→ [Request Early Access](https://tally.so/r/aQ66W2)
 
-No credit card required.
-
-**[Request Platform Early Access](https://tally.so/r/aQ66W2)**
+**Enterprise** — Self-hosted platform deployment, SSO/SAML, audit log export, data residency, and compliance documentation.
+→ [Contact us](https://tally.so/r/aQ66W2)
 
 ## Comparison with Alternatives
 
@@ -270,7 +262,7 @@ No credit card required.
 | Prompt injection firewall | Yes | No | No | No |
 | TOON token compression | Yes | No | No | No |
 | Multi-provider (Google + Outlook) | Yes | No | No | Yes |
-| Price | Free (Lite) | Free | Free | Free |
+| Price | Free | Free | Free | Free |
 
 ## Built on Temporal Cortex Core
 
