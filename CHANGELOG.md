@@ -14,6 +14,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 - Removed "Comparison with Alternatives" table
 
+## [0.2.2] - 2026-02-22
+
+### Fixed
+- Fixed stdio transport immediately terminating after `initialize` — the MCP server now stays alive for the full session instead of exiting after the first handshake. All stdio-based MCP clients (Claude Desktop, Cursor, etc.) were affected.
+
 ## [0.2.1] - 2026-02-20
 
 ### Added
@@ -51,7 +56,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Deterministic RRULE expansion via Truth Engine (DST-aware, BYSETPOS, leap years)
 - RRULE Challenge CLI command for demonstrating edge case handling
 
-[Unreleased]: https://github.com/billylui/temporal-cortex-mcp/compare/v0.2.1...HEAD
+[Unreleased]: https://github.com/billylui/temporal-cortex-mcp/compare/v0.2.2...HEAD
+[0.2.2]: https://github.com/billylui/temporal-cortex-mcp/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/billylui/temporal-cortex-mcp/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/billylui/temporal-cortex-mcp/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/billylui/temporal-cortex-mcp/releases/tag/v0.1.1
