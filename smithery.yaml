@@ -1,5 +1,6 @@
 # Smithery directory configuration for Temporal Cortex MCP Server.
-# This file is auto-discovered by smithery.ai when this repo is submitted.
+# Deterministic calendar tools for AI agents: temporal context, scheduling,
+# availability merging, RRULE expansion, and Two-Phase Commit booking.
 # See: https://smithery.ai/docs/publishing
 
 startCommand:
@@ -46,16 +47,14 @@ startCommand:
         title: OAuth Redirect Port
         description: Port for local OAuth callback server (default 8085)
         default: 8085
-    required:
-      - google_client_id
-      - google_client_secret
+    required: []
   commandFunction: |-
     (config) => ({
       command: 'npx',
       args: ['-y', '@temporal-cortex/cortex-mcp@0.3.4'],
       env: {
-        GOOGLE_CLIENT_ID: config.google_client_id,
-        GOOGLE_CLIENT_SECRET: config.google_client_secret,
+        ...(config.google_client_id && { GOOGLE_CLIENT_ID: config.google_client_id }),
+        ...(config.google_client_secret && { GOOGLE_CLIENT_SECRET: config.google_client_secret }),
         ...(config.timezone && { TIMEZONE: config.timezone }),
         ...(config.microsoft_client_id && { MICROSOFT_CLIENT_ID: config.microsoft_client_id }),
         ...(config.microsoft_client_secret && { MICROSOFT_CLIENT_SECRET: config.microsoft_client_secret }),
