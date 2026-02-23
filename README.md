@@ -153,6 +153,60 @@ After authentication, verify it works by asking your AI assistant: *"What time i
 
 For a guided workflow, install the [calendar-scheduling Agent Skill](https://github.com/billylui/temporal-cortex-skill) to teach your AI agent the orient-resolve-query-book pattern.
 
+## Cloud Mode
+
+Instead of running the MCP server locally via `npx`, you can connect to the managed cloud endpoint. Cloud Mode requires no Node.js installation and no local OAuth credentials.
+
+**Getting started:**
+
+1. Sign up at [app.temporal-cortex.com](https://app.temporal-cortex.com).
+2. Connect your Google Calendar or Microsoft Outlook account via OAuth in the dashboard.
+3. Generate an API key from the dashboard.
+4. Add the MCP config to your AI client (see examples below).
+
+### Claude Desktop (Cloud)
+
+Add to your Claude Desktop config file:
+
+```json
+{
+  "mcpServers": {
+    "temporal-cortex": {
+      "url": "https://mcp.temporal-cortex.com/mcp",
+      "headers": {
+        "Authorization": "Bearer YOUR_API_KEY"
+      }
+    }
+  }
+}
+```
+
+### Cursor (Cloud)
+
+Add to Cursor's MCP settings (`~/.cursor/mcp.json`) using the same format:
+
+```json
+{
+  "mcpServers": {
+    "temporal-cortex": {
+      "url": "https://mcp.temporal-cortex.com/mcp",
+      "headers": {
+        "Authorization": "Bearer YOUR_API_KEY"
+      }
+    }
+  }
+}
+```
+
+**Benefits over Local Mode:**
+
+- **No OAuth credentials to manage** -- calendar connections are handled in the dashboard via standard OAuth flows.
+- **No Node.js required** -- the client connects directly to the cloud endpoint over HTTP.
+- **Usage dashboard** -- monitor tool calls, connected calendars, and billing from [app.temporal-cortex.com](https://app.temporal-cortex.com).
+- **Managed calendar connections** -- token refresh, re-authentication, and provider health are handled server-side.
+
+All 11 tools and 4 layers work identically in Cloud Mode. The only difference is transport: the client sends requests to the cloud endpoint instead of a local stdio process.
+
 ## What tools does Temporal Cortex provide?
 
 Temporal Cortex exposes 11 Model Context Protocol tools organized in 4 layers:
