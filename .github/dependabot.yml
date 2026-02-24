@@ -13,3 +13,14 @@ updates:
     labels:
       - dependencies
       - ci
+
+  # Docker base images (Dockerfile uses debian:trixie-slim)
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 3
+    labels:
+      - dependencies
+      - docker
