@@ -7,11 +7,18 @@ startCommand:
   type: stdio
   configSchema:
     type: object
+    title: Temporal Cortex MCP Server Configuration
+    description: >-
+      Configure calendar provider credentials and server behavior.
+      All fields are optional — the server auto-detects timezone and
+      launches an interactive OAuth flow when credentials are needed.
     properties:
       google_client_id:
         type: string
         title: Google Client ID
         description: Google OAuth2 Client ID for Calendar API access
+        examples:
+          - "123456789.apps.googleusercontent.com"
       google_client_secret:
         type: string
         title: Google Client Secret
@@ -19,16 +26,23 @@ startCommand:
       timezone:
         type: string
         title: Timezone
-        description: IANA timezone (e.g., America/New_York). Auto-detected if not set.
+        description: IANA timezone (e.g., America/New_York). Auto-detected from OS if not set.
+        examples:
+          - "America/New_York"
+          - "Europe/London"
+          - "Asia/Tokyo"
       tenant_id:
         type: string
         title: Tenant ID
-        description: Optional UUID for tenant isolation
+        description: UUID for tenant isolation (auto-generated if not set)
+        pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
       lock_ttl_secs:
         type: number
         title: Lock TTL (seconds)
-        description: Lock timeout in seconds (default 30)
+        description: Two-Phase Commit lock timeout in seconds
         default: 30
+        minimum: 5
+        maximum: 300
       microsoft_client_id:
         type: string
         title: Microsoft Client ID
@@ -40,18 +54,23 @@ startCommand:
       week_start:
         type: string
         title: Week Start
-        description: "Week start day: 'monday' (default) or 'sunday'"
+        description: First day of the week for calendar calculations
         default: monday
+        enum:
+          - monday
+          - sunday
       oauth_redirect_port:
         type: number
         title: OAuth Redirect Port
-        description: Port for local OAuth callback server (default 8085)
+        description: Port for local OAuth callback server
         default: 8085
+        minimum: 1024
+        maximum: 65535
     required: []
   commandFunction: |-
     (config) => ({
       command: 'npx',
-      args: ['-y', '@temporal-cortex/cortex-mcp@0.4.4'],
+      args: ['-y', '@temporal-cortex/cortex-mcp@0.4.5'],
       env: {
         ...(config.google_client_id && { GOOGLE_CLIENT_ID: config.google_client_id }),
         ...(config.google_client_secret && { GOOGLE_CLIENT_SECRET: config.google_client_secret }),

@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.5] - 2026-02-25
+
+### Added
+- Tool annotations on all 11 tools — `readOnlyHint`, `destructiveHint`, `idempotentHint`, `openWorldHint` for quality scoring and agent trust decisions
+- 3 MCP prompt templates — `schedule_meeting`, `check_schedule`, `convert_time`
+- 2 MCP resources — `cortex://docs/tool-usage-guide` and `cortex://docs/rrule-reference`
+- ServerInfo display name, icon (SVG), description, and website URL
+- Server instructions in `InitializeResult`
+
+### Changed
+- Server card updated with tool annotations, icon, and prompts/resources capabilities
+- Improved `smithery.yaml` config schema — enum, examples, constraints, title, and description
+- ServerCapabilities now advertises tools, prompts, and resources
+
 ## [0.4.4] - 2026-02-25
 
 ### Added
@@ -141,7 +155,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Deterministic RRULE expansion via Truth Engine (DST-aware, BYSETPOS, leap years)
 - RRULE Challenge CLI command for demonstrating edge case handling
 
-[Unreleased]: https://github.com/billylui/temporal-cortex-mcp/compare/v0.4.3...HEAD
+[Unreleased]: https://github.com/billylui/temporal-cortex-mcp/compare/v0.4.5...HEAD
+[0.4.5]: https://github.com/billylui/temporal-cortex-mcp/compare/v0.4.4...v0.4.5
+[0.4.4]: https://github.com/billylui/temporal-cortex-mcp/compare/v0.4.3...v0.4.4
 [0.4.3]: https://github.com/billylui/temporal-cortex-mcp/compare/v0.4.2...v0.4.3
 [0.4.2]: https://github.com/billylui/temporal-cortex-mcp/compare/v0.4.1...v0.4.2
 [0.4.1]: https://github.com/billylui/temporal-cortex-mcp/compare/v0.4.0...v0.4.1
