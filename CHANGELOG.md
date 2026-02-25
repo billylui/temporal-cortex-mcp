@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.4] - 2026-02-25
+
+### Added
+- MCP Server Card endpoint (`/.well-known/mcp/server-card.json`) for pre-connection tool discovery (SEP-1649) — enables Smithery and other registries to list all 11 tools without requiring authentication
+
 ## [0.4.3] - 2026-02-24
 
 ### Changed
