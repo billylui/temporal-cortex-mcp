@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.2] - 2026-02-27
+
+### Fixed
+- Fixed MCP Registry OIDC namespace casing — `.mcp/server.json` name now uses `io.github.Temporal-Cortex/mcp` (case-sensitive match with GitHub org)
+
 ## [0.5.1] - 2026-02-27
 
 ### Changed
@@ -185,7 +190,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Deterministic RRULE expansion via Truth Engine (DST-aware, BYSETPOS, leap years)
 - RRULE Challenge CLI command for demonstrating edge case handling
 
-[Unreleased]: https://github.com/temporal-cortex/mcp/compare/v0.5.1...HEAD
+[Unreleased]: https://github.com/temporal-cortex/mcp/compare/v0.5.2...HEAD
+[0.5.2]: https://github.com/temporal-cortex/mcp/compare/v0.5.1...v0.5.2
 [0.5.1]: https://github.com/temporal-cortex/mcp/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/temporal-cortex/mcp/compare/v0.4.5...v0.5.0
 [0.4.5]: https://github.com/temporal-cortex/mcp/compare/v0.4.4...v0.4.5
