@@ -2,7 +2,7 @@ FROM debian:trixie-slim AS build
 RUN apt-get update \
     && apt-get install -y --no-install-recommends nodejs npm \
     && rm -rf /var/lib/apt/lists/*
-RUN npm install -g @temporal-cortex/cortex-mcp@0.5.3
+RUN npm install -g @temporal-cortex/cortex-mcp@0.5.4
 
 FROM debian:trixie-slim
 RUN apt-get update \
