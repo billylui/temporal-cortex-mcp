@@ -6,6 +6,7 @@
     { "pattern": "^https://crates\\.io/crates/" },
     { "pattern": "^https://www\\.npmjs\\.com/package/" },
     { "pattern": "^https://github\\.com/temporal-cortex/mcp/compare/" },
+    { "pattern": "^https://github\\.com/temporal-cortex/mcp/issues/new" },
     { "pattern": "^https://github\\.com/temporal-cortex/skills" }
   ],
   "retryOn429": true,
