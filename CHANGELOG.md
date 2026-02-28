@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.3] - 2026-02-28
+
+### Changed
+- Version alignment with Skills v0.5.3 (skill restructure: 4→3 skills, merged calendars+booking into scheduling)
+
 ## [0.5.2] - 2026-02-27
 
 ### Fixed
@@ -193,7 +198,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Deterministic RRULE expansion via Truth Engine (DST-aware, BYSETPOS, leap years)
 - RRULE Challenge CLI command for demonstrating edge case handling
 
-[Unreleased]: https://github.com/temporal-cortex/mcp/compare/v0.5.2...HEAD
+[Unreleased]: https://github.com/temporal-cortex/mcp/compare/v0.5.3...HEAD
+[0.5.3]: https://github.com/temporal-cortex/mcp/compare/v0.5.2...v0.5.3
 [0.5.2]: https://github.com/temporal-cortex/mcp/compare/v0.5.1...v0.5.2
 [0.5.1]: https://github.com/temporal-cortex/mcp/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/temporal-cortex/mcp/compare/v0.4.5...v0.5.0
