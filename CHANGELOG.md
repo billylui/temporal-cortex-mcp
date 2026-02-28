@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.5] - 2026-02-28
+
+### Added
+- **supply-chain**: SHA256 checksums (`SHA256SUMS.txt`) now attached to GitHub Releases
+- **supply-chain**: npm packages published with SLSA provenance attestations
+
+### Changed
+- Version alignment with Skills v0.5.5 and Platform v0.5.5
+
 ## [0.5.4] - 2026-02-28
 
 ### Changed
