@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.9] - 2026-03-03
+
+### Changed
+- **docs**: Enhanced verification section in README — named `checksums.json` explicitly, added **fails on mismatch** language with error detail description, consistent with Skills v0.5.9 scanner remediation
+- Version alignment with Skills v0.5.9 and Platform v0.5.9 (ClawHub scanner remediation: `anyBins` removal, verification pipeline documentation, Docker containment elevation)
+
 ## [0.5.8] - 2026-03-01
 
 ### Changed

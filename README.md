@@ -6,7 +6,7 @@
 [![Smithery](https://smithery.ai/badge/@temporal-cortex/cortex-mcp)](https://smithery.ai/server/@temporal-cortex/cortex-mcp)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-**v0.5.8** · March 2026 · [Changelog](CHANGELOG.md) · **Website:** [temporal-cortex.com](https://temporal-cortex.com)
+**v0.5.9** · March 2026 · [Changelog](CHANGELOG.md) · **Website:** [temporal-cortex.com](https://temporal-cortex.com)
 
 Temporal Cortex is a Model Context Protocol server that gives AI agents deterministic calendar capabilities — temporal context, datetime resolution, multi-calendar availability merging across Google Calendar, Microsoft Outlook, and CalDAV, and conflict-free booking with Two-Phase Commit. Powered by [Truth Engine](https://github.com/temporal-cortex/core). Install: `npx @temporal-cortex/cortex-mcp`.
 
@@ -60,7 +60,7 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS)
   "mcpServers": {
     "temporal-cortex": {
       "command": "npx",
-      "args": ["-y", "@temporal-cortex/cortex-mcp@0.5.8"],
+      "args": ["-y", "@temporal-cortex/cortex-mcp@0.5.9"],
       "env": {
         "GOOGLE_CLIENT_ID": "your-client-id.apps.googleusercontent.com",
         "GOOGLE_CLIENT_SECRET": "your-client-secret",
@@ -80,7 +80,7 @@ Add to Cursor's MCP settings (`~/.cursor/mcp.json`):
   "mcpServers": {
     "temporal-cortex": {
       "command": "npx",
-      "args": ["-y", "@temporal-cortex/cortex-mcp@0.5.8"],
+      "args": ["-y", "@temporal-cortex/cortex-mcp@0.5.9"],
       "env": {
         "GOOGLE_CLIENT_ID": "your-client-id.apps.googleusercontent.com",
         "GOOGLE_CLIENT_SECRET": "your-client-secret",
@@ -100,7 +100,7 @@ Add to Windsurf's MCP config (`~/.codeium/windsurf/mcp_config.json`):
   "mcpServers": {
     "temporal-cortex": {
       "command": "npx",
-      "args": ["-y", "@temporal-cortex/cortex-mcp@0.5.8"],
+      "args": ["-y", "@temporal-cortex/cortex-mcp@0.5.9"],
       "env": {
         "GOOGLE_CLIENT_ID": "your-client-id.apps.googleusercontent.com",
         "GOOGLE_CLIENT_SECRET": "your-client-secret",
@@ -128,13 +128,13 @@ Build the image first: `docker build -t cortex-mcp .` (or build directly from th
 
 ## How do I verify the installation?
 
-SHA256 checksums are published with every [GitHub Release](https://github.com/temporal-cortex/mcp/releases) and embedded in the npm package for automatic postinstall verification. The postinstall script compares the downloaded binary's SHA256 hash against the expected checksum and fails with a clear error on mismatch.
+SHA256 checksums are published with every [GitHub Release](https://github.com/temporal-cortex/mcp/releases) and embedded in the npm package as `checksums.json` for automatic postinstall verification. The postinstall script downloads the platform-specific binary and compares its SHA256 hash against the expected checksum in `checksums.json`. **On mismatch, installation fails with an error** — the binary is not installed and the error message includes both the expected and actual hashes.
 
 **Verify manually:**
 
 ```bash
 # Download the published checksums
-curl -sL https://github.com/temporal-cortex/mcp/releases/download/mcp-v0.5.8/SHA256SUMS.txt
+curl -sL https://github.com/temporal-cortex/mcp/releases/download/mcp-v0.5.9/SHA256SUMS.txt
 
 # Compare against your installed binary
 sha256sum "$(dirname "$(which cortex-mcp)")/../cortex-mcp" 2>/dev/null || \
@@ -337,7 +337,7 @@ Transport mode is auto-detected — set `HTTP_PORT` to switch from stdio to HTTP
 
 ```bash
 # HTTP mode example
-HTTP_PORT=8009 npx @temporal-cortex/cortex-mcp@0.5.8
+HTTP_PORT=8009 npx @temporal-cortex/cortex-mcp@0.5.9
 ```
 
 ### Local Mode vs Platform Mode
