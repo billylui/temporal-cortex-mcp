@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.1] - 2026-03-04
+
+### Fixed
+- **README**: Fix stale "calendar-scheduling Agent Skill" → "Temporal Cortex Agent Skills" references
+- **README**: Remove version pins from user-facing npx config examples (always use latest)
+- **docs**: Fix stale skill name and tool count in first-run-guide.md and learnings.md
+- **CHANGELOG**: Fix comparison links
+
 ## [0.7.0] - 2026-03-04
 
 ### Added
@@ -261,7 +269,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Deterministic RRULE expansion via Truth Engine (DST-aware, BYSETPOS, leap years)
 - RRULE Challenge CLI command for demonstrating edge case handling
 
-[Unreleased]: https://github.com/temporal-cortex/mcp/compare/v0.7.0...HEAD
+[Unreleased]: https://github.com/temporal-cortex/mcp/compare/v0.7.1...HEAD
+[0.7.1]: https://github.com/temporal-cortex/mcp/compare/v0.7.0...v0.7.1
 [0.7.0]: https://github.com/temporal-cortex/mcp/compare/v0.6.2...v0.7.0
 [0.6.2]: https://github.com/temporal-cortex/mcp/compare/v0.6.1...v0.6.2
 [0.6.1]: https://github.com/temporal-cortex/mcp/compare/v0.6.0...v0.6.1
