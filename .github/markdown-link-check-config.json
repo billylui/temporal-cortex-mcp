@@ -10,7 +10,8 @@
     { "pattern": "^https://github\\.com/temporal-cortex/skills" },
     { "pattern": "^https://docs\\.crewai\\.com/" },
     { "pattern": "^https://www\\.crewai\\.com/" },
-    { "pattern": "^\\.\\./\\.\\./docs/" }
+    { "pattern": "^\\.\\./\\.\\./docs/" },
+    { "pattern": "^docs/" }
   ],
   "retryOn429": true,
   "retryCount": 3,
