@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-03-07
+
 ### Added
 - **examples**: LangGraph integration with 4 examples (`examples/langgraph/`): ReAct agent (`simple.py`), Platform Mode (`simple_platform.py`), multi-agent StateGraph (`multi_agent.py`), and human-in-the-loop booking approval (`human_in_the_loop.py`)
 - **docs**: LangGraph integration guide (`docs/langgraph-integration.md`)
@@ -24,6 +26,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **examples**: Fixed stale "destructive tools" → "write tools" in examples README (booking tools have `destructiveHint: false`)
 - **docs**: Updated stale "4 layers" → "5 layers" and "12 tools" → "15 tools" references across README, llms-install.md, and docs guides
 - **docs**: Added Layer 0 (Discovery) to llms-install.md; split combined "Layer 3-4" into separate sections with all Open Scheduling tools
+
+### Changed
+- Version bump to 0.8.0
 
 ## [0.7.9] - 2026-03-07
 
