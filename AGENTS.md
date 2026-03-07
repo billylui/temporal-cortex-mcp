@@ -7,7 +7,7 @@ Public documentation repo for the Temporal Cortex MCP server (`@temporal-cortex/
 - `README.md` — Main user-facing docs (Q&A format: each section is a question)
 - `CHANGELOG.md` — Release history
 - `docs/` — Setup guides (google-cloud-setup, outlook-setup, caldav-setup), tool reference, integration guides (CrewAI, OpenAI Agents SDK), architecture overview
-- `examples/` — Integration examples: `crewai/`, `openai-agents/`, config snippets (claude-desktop.json, cursor.json, windsurf.json)
+- `examples/` — Integration examples: `crewai/`, `langgraph/`, `openai-agents/`, config snippets (claude-desktop.json, cursor.json, windsurf.json)
 - `Dockerfile` — Multi-stage build wrapping the npm binary
 - `smithery.yaml` — Smithery directory config
 - `glama.json` — Glama directory metadata (maintainers field only; Docker config is in Glama dashboard)
