@@ -61,7 +61,7 @@ def main():
     description = (
         "System prompt for a calendar scheduling ReAct agent using "
         "Temporal Cortex MCP tools (https://github.com/temporal-cortex/mcp). "
-        "Encodes a 5-step deterministic workflow: orient → resolve → discover "
+        "Encodes a 7-step deterministic workflow: orient → resolve → discover "
         "→ query → book. Prevents date hallucination and ensures correct "
         "tool-calling order.\n\n"
         "Requires Temporal Cortex MCP server for tools. Quick start:\n"

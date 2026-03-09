@@ -54,7 +54,7 @@ server_params = {
 
 def main():
     with MCPServerAdapter(server_params) as tools:
-        # Platform Mode discovers all 15 tools (including Open Scheduling)
+        # Platform Mode discovers all 18 tools (including Open Scheduling)
         print(f"Discovered {len(tools)} Temporal Cortex tools")
 
         temporal_analyst = create_temporal_analyst(tools)

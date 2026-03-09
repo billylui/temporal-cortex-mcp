@@ -65,7 +65,7 @@ async def main():
         }
     ) as client:
         tools = client.get_tools()
-        # Platform Mode discovers all 15 tools (including Open Scheduling)
+        # Platform Mode discovers all 18 tools (including Open Scheduling)
         print(f"Discovered {len(tools)} Temporal Cortex tools")
 
         agent = create_react_agent(model, tools, prompt=SYSTEM_PROMPT)
