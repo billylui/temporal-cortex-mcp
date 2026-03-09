@@ -6,7 +6,7 @@
 [![Smithery](https://smithery.ai/badge/@temporal-cortex/cortex-mcp)](https://smithery.ai/server/@temporal-cortex/cortex-mcp)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-**v0.8.1** · March 2026 · [Changelog](CHANGELOG.md) · **Website:** [temporal-cortex.com](https://temporal-cortex.com)
+**v0.9.0** · March 2026 · [Changelog](CHANGELOG.md) · **Website:** [temporal-cortex.com](https://temporal-cortex.com)
 
 Temporal Cortex is an MCP server that lets AI agents schedule meetings with anyone — whether the other person has an AI agent or not, uses Google Calendar or Outlook, or responds instantly or days later. 18 tools across 5 layers handle contact resolution, temporal reasoning, cross-provider availability, and atomic booking. Powered by [Truth Engine](https://github.com/temporal-cortex/core). Install: `npx @temporal-cortex/cortex-mcp`.
 
@@ -134,7 +134,7 @@ SHA256 checksums are published with every [GitHub Release](https://github.com/te
 
 ```bash
 # Download the published checksums
-curl -sL https://github.com/temporal-cortex/mcp/releases/download/mcp-v0.8.1/SHA256SUMS.txt
+curl -sL https://github.com/temporal-cortex/mcp/releases/download/mcp-v0.9.0/SHA256SUMS.txt
 
 # Compare against your installed binary
 sha256sum "$(dirname "$(which cortex-mcp)")/../cortex-mcp" 2>/dev/null || \
