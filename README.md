@@ -13,6 +13,31 @@ Temporal Cortex is open scheduling infrastructure that lets any AI agent schedul
 <a href="https://insiders.vscode.dev/redirect/mcp/install?name=temporal-cortex-mcp&inputs=%7B%22google_client_id%22%3A%22%22%2C%22google_client_secret%22%3A%22%22%7D&config=%7B%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22%40temporal-cortex%2Fcortex-mcp%22%5D%2C%22env%22%3A%7B%22GOOGLE_CLIENT_ID%22%3A%22%24%7Binput%3Agoogle_client_id%7D%22%2C%22GOOGLE_CLIENT_SECRET%22%3A%22%24%7Binput%3Agoogle_client_secret%7D%22%7D%7D"><img src="https://img.shields.io/badge/VS_Code-Install_MCP_Server-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white" alt="Install in VS Code"></a>
 <a href="https://cursor.com/install-mcp?name=temporal-cortex&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsIkB0ZW1wb3JhbC1jb3J0ZXgvY29ydGV4LW1jcCJdLCJlbnYiOnsiR09PR0xFX0NMSUVOVF9JRCI6InlvdXItY2xpZW50LWlkLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiR09PR0xFX0NMSUVOVF9TRUNSRVQiOiJ5b3VyLWNsaWVudC1zZWNyZXQifX0%3D"><img src="https://img.shields.io/badge/Cursor-Install_MCP_Server-black?style=flat-square&logo=cursor&logoColor=white" alt="Install in Cursor"></a>
 
+## Two ways to use Temporal Cortex
+
+### For individuals
+
+Connect your calendars. Your AI agent handles the rest — checking availability, resolving time zones, and booking meetings without double-booking. Works with Claude Desktop, Cursor, OpenClaw, Manus, and any MCP-compatible AI client.
+
+```bash
+npx @temporal-cortex/cortex-mcp setup
+```
+
+The setup wizard walks you through provider authentication, timezone configuration, and MCP client setup interactively. You'll be scheduling in under a minute.
+
+**Or use the managed Platform** — no Node.js required. Sign up at [app.temporal-cortex.com](https://app.temporal-cortex.com), connect your calendars via OAuth, and add a single MCP config with your API key.
+
+### For developers
+
+Add scheduling to your AI agent or product. 18 tools across 5 layers, 4 protocols (MCP, A2A, REST, Browser), atomic booking with Two-Phase Commit, and deterministic temporal computation powered by [Truth Engine](https://github.com/temporal-cortex/core).
+
+- **Local MCP server:** `npx @temporal-cortex/cortex-mcp` — full tool suite, zero infrastructure
+- **Platform REST API:** [app.temporal-cortex.com](https://app.temporal-cortex.com) — managed hosting, API keys, usage dashboard, Open Scheduling network
+- **Framework integrations:** [LangGraph](docs/langgraph-integration.md), [CrewAI](docs/crewai-integration.md), [OpenAI Agents SDK](docs/openai-agents-integration.md)
+- **REST API reference:** [temporal-cortex.com/docs/rest-api](https://temporal-cortex.com/docs/rest-api)
+
+---
+
 ## Why do AI agents fail at calendar tasks?
 
 Even the latest LLMs — GPT-5, Claude, Gemini — score below 50% on temporal reasoning tasks ([OOLONG benchmark](https://arxiv.org/abs/2511.02817)). Earlier models scored as low as 29% on scheduling and 13% on duration calculations ([Test of Time, ICLR 2025](https://arxiv.org/abs/2406.09170)). Ask "Schedule for next Tuesday at 2pm" and it picks the wrong Tuesday. Ask "Am I free at 3pm?" and it checks the wrong timezone. Then it double-books your calendar.
@@ -556,7 +581,7 @@ Even the latest frontier models — GPT-5, Claude Sonnet 4, Gemini 2.5 Pro — s
 
 ### Is there a managed cloud option?
 
-Yes. The Temporal Cortex Platform is available at [app.temporal-cortex.com](https://app.temporal-cortex.com). Sign up for free to get managed hosting, OAuth lifecycle management, and a usage dashboard. Pro and Enterprise tiers add Open Scheduling, caller-based policies, and compliance features.
+Yes. The Temporal Cortex Platform is available at [app.temporal-cortex.com](https://app.temporal-cortex.com). Sign up for free — individuals get 20 bookings/month on the Starter tier, developers get 100 bookings/month. Paid tiers (Individual Pro, Developer Growth/Scale) add higher limits and priority support. All scheduling features are available on every tier, including free.
 
 ## Does Temporal Cortex collect telemetry?
 
